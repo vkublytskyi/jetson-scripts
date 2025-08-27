@@ -30,17 +30,27 @@ if [[ "$HAS_FORK" =~ ^[Yy]$ ]]; then
     echo ""
 fi
 
+original_dir=$(pwd)
+
+# Back to original working directory
+cleanup() {
+    cd "$original_dir"
+}
+
+trap cleanup EXIT
+
 # Enable command tracing only for the main commands
 set -x
 
 # Clone the jetson-containers repository using SSH
-git clone git@github.com:dusty-nv/jetson-containers.git
+git clone git@github.com:dusty-nv/jetson-containers.git $HOME/jetson_containers
+cd $HOME/jetson_containers
+
 
 # Run the installer script
-bash jetson-containers/install.sh
+bash ./install.sh
 
 # Switch to dev branch after installation
-cd jetson-containers
 git checkout dev
 
 # Add personal fork as remote if provided

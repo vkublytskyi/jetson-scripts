@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: debug why device was not put in MAXN SUPER permanently. For now swithc in UI
+
 # Script to enable maximum power mode on Jetson device
 # Sets nvpmodel to mode 0 (typically MAXN - highest performance)
 

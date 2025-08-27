@@ -47,9 +47,9 @@ curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
 # Clone custom themes repository if provided
 if [[ "$HAS_THEMES_REPO" =~ ^[Yy]$ ]] && [[ -n "$THEMES_REPO_URL" ]]; then
     # Remove existing themes directory if it exists
-    rm -rf ~/.config/oh-my-posh
+    rm -rf $HOME/.config/oh-my-posh
     # Clone themes repository
-    git clone "$THEMES_REPO_URL" ~/.config/oh-my-posh
+    git clone "$THEMES_REPO_URL" $HOME/.config/oh-my-posh
 fi
 
 # Disable command tracing for config logic
@@ -61,8 +61,8 @@ CONFIG_SOURCE=""
 
 if [[ -n "$THEME_NAME" ]]; then
     # Check if custom theme exists in local repo
-    if [[ -f ~/.config/oh-my-posh/themes/${THEME_NAME}.omp.json ]]; then
-        CONFIG_PATH="~/.config/oh-my-posh/themes/${THEME_NAME}.omp.json"
+    if [[ -f $HOME/.config/oh-my-posh/themes/${THEME_NAME}.omp.json ]]; then
+        CONFIG_PATH="$HOME/.config/oh-my-posh/themes/${THEME_NAME}.omp.json"
         CONFIG_SOURCE="custom repository"
     else
         # Check if official theme exists (we'll verify this when adding to .bashrc)
@@ -83,19 +83,19 @@ fi
 set -x
 
 # Backup existing .bashrc
-cp ~/.bashrc ~/.bashrc.backup.$(date +%Y%m%d_%H%M%S)
+cp ~/.bashrc $HOME/.bashrc.backup.$(date +%Y%m%d_%H%M%S)
 
 # Remove any existing Oh My Posh configuration from .bashrc
-sed -i '/oh-my-posh/d' ~/.bashrc
+sed -i '/oh-my-posh/d' $HOME/.bashrc
 
 # Add Oh My Posh initialization to .bashrc
 echo "" >> ~/.bashrc
 echo "# Oh My Posh configuration" >> ~/.bashrc
 
 if [[ -n "$CONFIG_PATH" ]]; then
-    echo "eval \"\$(oh-my-posh init bash --config $CONFIG_PATH)\"" >> ~/.bashrc
+    echo "eval \"\$($HOME/.local/bin/oh-my-posh init bash --config $CONFIG_PATH)\"" >> $HOME/.bashrc
 else
-    echo "eval \"\$(oh-my-posh init bash)\"" >> ~/.bashrc
+    echo "eval \"\$($HOME/.local/bin/oh-my-posh init bash)\"" >> $HOME/.bashrc
 fi
 
 # Disable command tracing
